@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://specs.hudhudtpl.com/schemas/af-aims-transparency-register-v1.schema.json",
+  "title": "Agentic Factory AIMS AI Transparency Register Schema",
+  "description": "Standard schema for ISO/IEC 42001 (AIMS) and EU AI Act transparency disclosures emitted by Agentic Factory.",
+  "type": "object",
+  "required": ["schema", "rows"],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "af-aims-transparency-register/v1",
+      "description": "Schema version identifier."
+    },
+    "rows": {
+      "type": "array",
+      "description": "Inventory of AI models, prompt templates, tool allow-lists, and egress boundaries.",
+      "items": {
+        "type": "object",
+        "required": [
+          "maker_id",
+          "model_id",
+          "provider",
+          "prompt_template_hash",
+          "tool_allow_list",
+          "egress_boundary",
+          "risk_tier"
+        ],
+        "properties": {
+          "maker_id": {
+            "type": "string",
+            "description": "Identifier of the agent maker role (e.g. maker-architect, maker-coder)."
+          },
+          "model_id": {
+            "type": "string",
+            "description": "Specific foundation or fine-tuned model identifier."
+          },
+          "provider": {
+            "type": "string",
+            "description": "Hosting provider or local runtime (e.g. google, anthropic, openai, local-vllm)."
+          },
+          "prompt_template_hash": {
+            "type": "string",
+            "pattern": "^[a-fA-F0-9]{64}$",
+            "description": "SHA-256 fingerprint of the immutable prompt template."
+          },
+          "tool_allow_list": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Exact list of tools permitted during execution."
+          },
+          "egress_boundary": {
+            "type": "string",
+            "enum": ["zero-egress-vpc", "controlled-egress", "unrestricted"],
+            "description": "Network containment level enforced on the model invocation."
+          },
+          "risk_tier": {
+            "type": "string",
+            "enum": ["low", "moderate", "high", "unacceptable"],
+            "description": "Risk classification per ISO 14971 / EU AI Act criteria."
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

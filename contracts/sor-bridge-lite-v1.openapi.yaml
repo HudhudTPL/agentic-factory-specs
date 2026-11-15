@@ -1,0 +1,141 @@
+openapi: 3.0.3
+info:
+  title: Agentic Factory SoR Bridge Lite
+  version: 1.0.0
+  description: |
+    AF-BRIDGE-LITE-001 open SoR webhook/REST JSON contract.
+    AF does not store SoR file bytes. Vendor PLM SDKs are out of scope.
+servers:
+  - url: https://factory.example.invalid
+    description: Placeholder host — adapters implement this contract in front of the customer SoR
+paths:
+  /sor/v1/revisions/{revision_id}:
+    get:
+      summary: Read revision resource
+      operationId: getRevision
+      parameters:
+        - name: revision_id
+          in: path
+          required: true
+          schema:
+            type: string
+            maxLength: 120
+      responses:
+        "200":
+          description: Revision resource
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RevisionResource"
+        "404":
+          description: Unknown revision
+    put:
+      summary: Upsert revision resource
+      operationId: putRevision
+      parameters:
+        - name: revision_id
+          in: path
+          required: true
+          schema:
+            type: string
+            maxLength: 120
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RevisionResource"
+      responses:
+        "200":
+          description: Upserted revision
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RevisionResource"
+  /sor/v1/events:
+    post:
+      summary: Inbound SoR webhook event
+      operationId: postEvent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WebhookEvent"
+      responses:
+        "200":
+          description: Accepted (idempotent)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WebhookEvent"
+components:
+  schemas:
+    RevisionResource:
+      type: object
+      required: [schema, revision_id, status, publish_ack]
+      properties:
+        schema:
+          type: string
+          enum: [af-sor-bridge-lite/v1]
+        revision_id:
+          type: string
+          maxLength: 120
+        status:
+          type: string
+          enum: [draft, released, superseded, withdrawn]
+        publish_ack:
+          type: boolean
+        verification_evidence_uri:
+          type: string
+          maxLength: 2000
+        requirements_stub:
+          type: string
+          maxLength: 4000
+        content_sha256:
+          type: string
+          pattern: "^[a-fA-F0-9]{64}$"
+        markers_present:
+          type: array
+          items:
+            type: string
+        markers_absent:
+          type: array
+          items:
+            type: string
+        text_excerpt:
+          type: string
+          maxLength: 8000
+        alternative_summary:
+          type: string
+        source_system:
+          type: string
+        program_id:
+          type: string
+        customer_id:
+          type: string
+    WebhookEvent:
+      type: object
+      required: [schema, source_system, event_type, external_id, revision_id]
+      properties:
+        schema:
+          type: string
+          enum: [af-sor-bridge-lite-event/v1]
+        source_system:
+          type: string
+          enum: [github, jira, postgres, file, cad, plm, erp, mes]
+        event_type:
+          type: string
+          enum: [revision_released, revision_superseded, publish_acked, requirements_stub_updated]
+        external_id:
+          type: string
+          maxLength: 120
+        revision_id:
+          type: string
+          maxLength: 120
+        program_id:
+          type: string
+        customer_id:
+          type: string
+        verification_evidence_uri:
+          type: string

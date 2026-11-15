@@ -1,0 +1,130 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://specs.hudhudtpl.com/schemas/af-audit-evidence-pack-v1.schema.json",
+  "title": "Agentic Factory Audit Evidence Pack Index Schema",
+  "description": "Standard schema for continuous DHF, AI Transparency, and SDLC evidence packs produced by Agentic Factory (AF-AUDIT-PACK-001).",
+  "type": "object",
+  "required": [
+    "schema",
+    "doc_id",
+    "built_at_utc",
+    "project_id",
+    "task_id",
+    "paq_enabled",
+    "claim_boundary",
+    "pre_signoff_flags",
+    "files",
+    "counts"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "af-audit-evidence-pack/v1",
+      "description": "Version identifier for the audit evidence pack schema."
+    },
+    "doc_id": {
+      "type": "string",
+      "description": "Controlled document identifier (e.g. AF-AUDIT-PACK-001)."
+    },
+    "built_at_utc": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 UTC timestamp of when the pack was sealed."
+    },
+    "project_id": {
+      "type": "string",
+      "description": "Unique program or project identifier."
+    },
+    "task_id": {
+      "type": "string",
+      "description": "Task or sprint identifier within the program."
+    },
+    "paq_enabled": {
+      "type": "boolean",
+      "description": "Whether Project Assurance & Quality (PAQ) fail-closed gating was active."
+    },
+    "claim_boundary": {
+      "type": "string",
+      "description": "Formal boundary notice stating this pack facilitates evidence and does not substitute for regulatory clearance or human sign-off."
+    },
+    "cqc_ref": {
+      "type": "string",
+      "description": "Reference path to the governing Customer Quality Contract."
+    },
+    "msa_exhibit_ref": {
+      "type": "string",
+      "description": "Reference path to the governing Master Services Agreement / EULA Exhibit."
+    },
+    "pre_signoff_flags": {
+      "type": "array",
+      "description": "Deterministic and advisory audit flags evaluated prior to human sign-off.",
+      "items": {
+        "type": "object",
+        "required": ["id", "severity", "message"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Stable flag identifier for automated gating."
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["blocker", "warning", "info"]
+          },
+          "message": {
+            "type": "string",
+            "description": "Human-readable explanation of the audit finding."
+          }
+        }
+      }
+    },
+    "files": {
+      "type": "array",
+      "description": "Cryptographically hashed manifest of all controlled and generated files in the bundle.",
+      "items": {
+        "type": "object",
+        "required": ["path", "relpath", "sha256", "source"],
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Destination path within the evidence pack bundle."
+          },
+          "relpath": {
+            "type": "string",
+            "description": "Normalized relative path for archive unpacking."
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-fA-F0-9]{64}$",
+            "description": "Canonical SHA-256 hex digest of the file contents."
+          },
+          "source": {
+            "type": "string",
+            "description": "Source origin classification (e.g. controlled, generated, program)."
+          }
+        }
+      }
+    },
+    "counts": {
+      "type": "object",
+      "required": ["receipts", "files", "transparency_rows"],
+      "properties": {
+        "receipts": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Count of verified gate receipts included in the pack."
+        },
+        "files": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total number of files in the bundle."
+        },
+        "transparency_rows": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Count of AI Transparency Register entries."
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,19 @@
+{
+  "schema": "af-sor-bridge-lite/v1",
+  "revision_id": "REV-C",
+  "status": "released",
+  "publish_ack": true,
+  "verification_evidence_uri": "https://sor.example.internal/evidence/REV-C",
+  "requirements_stub": "SYS-REQ-001 through SYS-REQ-042 baselined for connected companion app",
+  "content_sha256": "8f4e2b10a9c8d7e6f5a4b3c2d1e0f9a8b7c6d5e4f3a2b1c0d9e8f7a6b5c4d3e2",
+  "markers_present": [
+    "AF-INPUT-001",
+    "AF-INPUT-002"
+  ],
+  "markers_absent": [],
+  "text_excerpt": "SRS baseline released under ECO-2026-041 with hardware timing parameters pinned.",
+  "alternative_summary": "",
+  "source_system": "github",
+  "program_id": "PRJ_HUD_2026_0200",
+  "customer_id": "dogfood"
+}

@@ -1,0 +1,75 @@
+{
+  "schema": "af-audit-evidence-pack/v1",
+  "doc_id": "AF-AUDIT-PACK-001",
+  "built_at_utc": "2026-11-14T12:51:31.059564+00:00",
+  "project_id": "PRJ_HUD_2026_0200",
+  "task_id": "PRJ_HUD_2026_0200-task-001",
+  "paq_enabled": false,
+  "claim_boundary": "Facilitation pack for regulated AI/SDLC audit evidence. Not FDA/authority acceptance; human Mark Complete required.",
+  "cqc_ref": "controlled/customer-quality-contract.md",
+  "msa_exhibit_ref": "controlled/af-cqc-001-msa-eula-exhibit.md",
+  "pre_signoff_flags": [
+    {
+      "id": "human_mark_complete_required",
+      "severity": "blocker",
+      "message": "Human Mark Complete / residual-risk acceptance remains mandatory; pack is not unsupervised clearance."
+    },
+    {
+      "id": "no_unsupervised_authority_acceptance",
+      "severity": "info",
+      "message": "Pack does not claim FDA or other authority acceptance (CQC §3 / AF-CQC-MSA-EXH-001 non-claims)."
+    },
+    {
+      "id": "missing_gate_receipts",
+      "severity": "warning",
+      "message": "No gate receipts found under ledger/receipts for this program."
+    },
+    {
+      "id": "missing_dhf_package_index",
+      "severity": "warning",
+      "message": "No DHF package index found for this program."
+    },
+    {
+      "id": "missing_abom",
+      "severity": "info",
+      "message": "No ABOM inventory found under ledger/abom (optional for software-only walks)."
+    }
+  ],
+  "files": [
+    {
+      "path": "controlled/customer-quality-contract.md",
+      "relpath": "controlled/customer-quality-contract.md",
+      "sha256": "0c2b4f9057d95805fa563b61dfbf39d2bb59c510b15e18d4cac824519aacf5c9",
+      "source": "controlled"
+    },
+    {
+      "path": "controlled/af-cqc-001-msa-eula-exhibit.md",
+      "relpath": "controlled/af-cqc-001-msa-eula-exhibit.md",
+      "sha256": "77b870d239d2a665d26409fcd77135becf152533083a46329ec6f82c4bc456a0",
+      "source": "controlled"
+    },
+    {
+      "path": "controlled/commercial-sku-roadmap.md",
+      "relpath": "controlled/commercial-sku-roadmap.md",
+      "sha256": "0164829b665813ba1de50e7dd355e2e5e90949d33c0d023a99c1d577a780a8d0",
+      "source": "controlled"
+    },
+    {
+      "path": "program/transparency/ai-transparency-register-template.md",
+      "relpath": "program/transparency/ai-transparency-register-template.md",
+      "sha256": "c472336bf95550991edda0ef9662efbef033a6f2fd3a77d59b1d8549b02c2731",
+      "source": "program"
+    },
+    {
+      "path": "transparency-register.json",
+      "relpath": "transparency-register.json",
+      "sha256": "b90ce23383f836abcf0ce0b83f72a03126788301ebd6f155e011786c14c185cb",
+      "source": "generated"
+    }
+  ],
+  "counts": {
+    "receipts": 0,
+    "files": 5,
+    "transparency_rows": 3
+  }
+}
