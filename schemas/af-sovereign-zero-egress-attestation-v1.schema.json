@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://specs.hudhudtpl.com/schemas/af-sovereign-zero-egress-attestation-v1.schema.json",
+  "title": "Agentic Factory Sovereign Zero-Egress Attestation Schema",
+  "description": "Attestation JSON written by verify_sovereign_zero_egress / sovereign_egress_service (AF-SOVEREIGN-SKU-001). Attests configured LLM endpoints are not on the public deny-list and sovereign mode constraints hold. Does not claim OS/kernel zero-outbound or classified accreditation (RG-036 residual).",
+  "type": "object",
+  "required": [
+    "schema",
+    "doc_id",
+    "built_at_utc",
+    "sovereign_mode",
+    "enforce",
+    "passed",
+    "execution_mode",
+    "providers",
+    "endpoints",
+    "denylist_sha256",
+    "denylist_count",
+    "findings",
+    "claim_boundary"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "af-sovereign-zero-egress-attestation/v1"
+    },
+    "doc_id": {
+      "type": "string",
+      "const": "AF-SOVEREIGN-SKU-001"
+    },
+    "built_at_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "sovereign_mode": {
+      "type": "boolean",
+      "description": "Whether AGENTIC_FACTORY_SOVEREIGN_MODE was active for the evaluation."
+    },
+    "enforce": {
+      "type": "boolean",
+      "description": "Whether fail-closed enforcement was requested for this run."
+    },
+    "passed": {
+      "type": "boolean"
+    },
+    "execution_mode": {
+      "type": "string",
+      "description": "Resolved execution mode (e.g. deterministic, privacy_first)."
+    },
+    "providers": {
+      "type": "object",
+      "required": ["platform", "product"],
+      "properties": {
+        "platform": { "type": "string" },
+        "product": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "endpoints": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["env", "host"],
+        "properties": {
+          "env": {
+            "type": "string",
+            "description": "Environment variable name that held the LLM base URL."
+          },
+          "host": {
+            "type": "string",
+            "description": "Parsed hostname (empty when unset)."
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "denylist_sha256": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{64}$",
+      "description": "SHA-256 of the sorted public LLM host deny-list body."
+    },
+    "denylist_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "severity", "message"],
+        "properties": {
+          "id": { "type": "string" },
+          "severity": {
+            "type": "string",
+            "enum": ["blocker", "warning", "info"]
+          },
+          "message": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "claim_boundary": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

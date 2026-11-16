@@ -2,40 +2,21 @@
   "schema": "af-aims-transparency-register/v1",
   "rows": [
     {
-      "maker_id": "maker-analyst",
-      "model_id": "gemini-2.5-pro",
-      "provider": "google",
-      "prompt_template_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "tool_allow_list": [
-        "read_crs_requirements",
-        "extract_safety_hazards"
-      ],
-      "egress_boundary": "zero-egress-vpc",
-      "risk_tier": "low"
+      "row_id": "AIM-CQC",
+      "topic": "Customer Quality Contract / PAQ",
+      "evidence": "docs/project-planning/customer-quality-contract.md",
+      "paq_enabled": false
     },
     {
-      "maker_id": "maker-architect",
-      "model_id": "gemini-2.5-pro",
-      "provider": "google",
-      "prompt_template_hash": "f4c281358b539c80d46f5de0eb305c4ea8064cfcf38d4187e14cb75775f0a359",
-      "tool_allow_list": [
-        "generate_trace_matrix",
-        "verify_iec62304_class"
-      ],
-      "egress_boundary": "zero-egress-vpc",
-      "risk_tier": "moderate"
+      "row_id": "AIM-MSA",
+      "topic": "Commercial remediation/credit exhibit",
+      "evidence": "docs/project-planning/af-cqc-001-msa-eula-exhibit.md",
+      "note": "Legal+EXE vaulted form; not a substitute for customer MSA execution"
     },
     {
-      "maker_id": "maker-coder",
-      "model_id": "claude-3-7-sonnet",
-      "provider": "anthropic-bedrock-vpc",
-      "prompt_template_hash": "a1b2c3d4e5f60718293a4b5c6d7e8f901234567890abcdef1234567890abcdef",
-      "tool_allow_list": [
-        "format_code",
-        "run_deterministic_tests"
-      ],
-      "egress_boundary": "zero-egress-vpc",
-      "risk_tier": "moderate"
+      "row_id": "AIM-PROJECT",
+      "topic": "Program identifier",
+      "evidence": "PRJ_HUD_2026_0200"
     }
   ]
 }

@@ -11,6 +11,8 @@ Developed by **[Hudhud Technologies](https://www.hudhudtpl.com)**, Agentic Facto
 
 > **Zero IP Risk Notice:** This repository contains only public outward-facing schemas, integration contracts, and compliance mapping documentation. The underlying deterministic execution harnesses, gate admission controllers, and proprietary engine internals remain closed-source and private.
 
+> **Alignment policy:** Schemas and samples in this repository track the **shipped** Agentic Factory platform (`HudhudTPL/AgenticFactoryPlatform`). Aspirational v1.1 shapes are not published as normative samples.
+
 ---
 
 ## Repository Structure
@@ -18,21 +20,24 @@ Developed by **[Hudhud Technologies](https://www.hudhudtpl.com)**, Agentic Facto
 ```text
 agentic-factory-specs/
 ├── schemas/
-│   ├── af-audit-evidence-pack-v1.schema.json         # JSON Schema for continuous DHF / evidence bundles
-│   ├── af-aims-transparency-register-v1.schema.json  # Schema for ISO 42001 / EU AI Act model disclosures
+│   ├── af-audit-evidence-pack-v1.schema.json              # INDEX.json for Audit Evidence Pack
+│   ├── af-aims-transparency-register-v1.schema.json       # transparency-register.json (evidence rows)
+│   ├── af-sovereign-zero-egress-attestation-v1.schema.json # Sovereign configured-endpoint attestation
 │   └── examples/
-│       ├── audit-evidence-pack-index-sample.json     # Sanitized evidence pack manifest (INDEX.json)
-│       └── transparency-register-sample.json         # Sanitized AI model & prompt template inventory
+│       ├── audit-evidence-pack-index-sample.json
+│       ├── transparency-register-sample.json
+│       └── sovereign-zero-egress-attestation-sample.json
 ├── contracts/
-│   ├── sor-bridge-lite-v1.openapi.yaml              # OpenAPI 3.0.3 specification for SoR Bridge Lite
-│   ├── sor-bridge-lite-v1.md                        # Contract integration & webhook specification
+│   ├── sor-bridge-lite-v1.openapi.yaml
+│   ├── sor-bridge-lite-v1.md
 │   └── examples/
-│       ├── sor-bridge-lite-sample-payload.json       # Sample revision resource payload
-│       └── sor-bridge-revision-pointer.json          # Gate evidence pointer linked to SoR revision IDs
+│       ├── sor-bridge-lite-sample-payload.json
+│       ├── sor-bridge-revision-pointers.md               # Gate-evidence markdown (as shipped)
+│       └── README.md
 ├── whitepapers/
-│   ├── iso27001-soc2-tsc-mapping-whitepaper.md      # Markdown source for security mapping whitepaper
-│   └── iso27001-soc2-tsc-mapping-whitepaper.pdf     # Publication-grade PDF whitepaper
-├── LICENSE                                          # Apache 2.0 open-specification license
+│   ├── iso27001-soc2-tsc-mapping-whitepaper.md
+│   └── iso27001-soc2-tsc-mapping-whitepaper.pdf
+├── LICENSE
 └── README.md
 ```
 
@@ -40,10 +45,11 @@ agentic-factory-specs/
 
 ## 1. Audit Evidence Pack (`af-audit-evidence-pack/v1`)
 
-The **Audit Evidence Pack** (`AF-AUDIT-PACK-001`) defines a standardized sidecar manifest for exportable regulatory evidence. It continuously stitches:
-- **Design Controls (FDA 21 CFR 820.30 / ISO 13485 §7.3):** Requirements, trace matrices (RTM), risk management states, and verification reports.
-- **AI Transparency (ISO/IEC 42001 & EU AI Act):** Model identifiers, immutable prompt template hashes, tool allow-lists, and egress boundaries.
-- **Deterministic Checkers & E-Signatures:** Tier-1 deterministic test verdicts, gate outcomes, and 21 CFR Part 11 electronic signature audit trails.
+The **Audit Evidence Pack** (`AF-AUDIT-PACK-001`) defines a standardized sidecar manifest for exportable regulatory evidence. It stitches:
+
+- **Design Controls (FDA 21 CFR 820.30 / ISO 13485 §7.3):** Requirements, DHF index pointers, risk/verification evidence when present on the program.
+- **AI Transparency (AIMS-oriented):** Evidence rows pointing at CQC/PAQ, MSA exhibit, gate receipts, ABOM, and program id — **not** an ISO/IEC 42001 accreditation certificate and **not** a complete EU AI Act high-risk dossier.
+- **Deterministic Checkers & E-Signatures:** Gate receipts and Part 11-oriented e-sign trails when present; human Mark Complete remains mandatory (`claim_boundary`).
 
 ### Benchmarked ROI
 * **Manual DHF & Evidence Compilation:** ~90 minutes (experienced QM/RA).
@@ -53,6 +59,7 @@ Explore:
 * [Audit Evidence Pack Schema](schemas/af-audit-evidence-pack-v1.schema.json)
 * [AI Transparency Register Schema](schemas/af-aims-transparency-register-v1.schema.json)
 * [Sanitized Manifest Example](schemas/examples/audit-evidence-pack-index-sample.json)
+* [Transparency Register Example](schemas/examples/transparency-register-sample.json)
 
 ---
 
@@ -61,23 +68,28 @@ Explore:
 The **Bridge Lite Contract** (`AF-BRIDGE-LITE-001`) defines an open REST and webhook specification that bridges enterprise engineering tools without displacing them.
 
 * **No Rip-and-Replace:** Your PLM (Windchill, Teamcenter, Arena), ALM (Jira, DOORS), CAD, and Git remain authoritative systems of record.
-* **Zero Byte Storage:** Agentic Factory never stores customer CAD geometries, proprietary binary blobs, or native files. It stores only cryptographic SHA-256 content fingerprints and revision statuses.
-* **Credentialed Read-Verify (`AF-TOOL-READ-VERIFY-001`):** Productizes automated incorporation checks to ensure software and firmware revisions match approved upstream baselines before lifecycle gates advance.
+* **Zero Byte Storage:** Agentic Factory never stores customer CAD geometries, proprietary binary blobs, or native files. It stores revision ids, optional content digests, markers/excerpts, and verification evidence URIs.
+* **Credentialed Read-Verify (`AF-TOOL-READ-VERIFY-001`):** Incorporation checks against the Bridge Lite revision resource (Call 4 marker/excerpt rules). Gate evidence pointers are append-only markdown under `artifacts/<PRJ>--project/gate-evidence/sor-bridge-revision-pointers.md`.
 
 Explore:
 * [OpenAPI 3.0.3 Contract](contracts/sor-bridge-lite-v1.openapi.yaml)
 * [Integration Specification](contracts/sor-bridge-lite-v1.md)
 * [Sample Revision Payload](contracts/examples/sor-bridge-lite-sample-payload.json)
+* [Sample Gate Evidence Pointers (markdown)](contracts/examples/sor-bridge-revision-pointers.md)
 
 ---
 
-## 3. Sovereign Runtime & Security Mapping Whitepaper
+## 3. Sovereign Runtime (`af-sovereign-zero-egress-attestation/v1`)
 
-For defense, aerospace, and high-risk medical device deployments, Agentic Factory deploys as a **Sovereign Runtime SKU** (`AF-SOVEREIGN-SKU-001`):
-* **Zero-Egress Guardrails:** Intercepts and blocks public LLM HTTP calls, forcing execution through local air-gapped SLMs or customer-managed private VPC endpoints.
-* **SOC 2 Alignment:** Provides enterprise procurement teams with a direct mapping from Hudhud’s certified **ISO/IEC 27001:2022 ISMS** to the **AICPA Trust Services Criteria (Security, Availability, Confidentiality, Processing Integrity, Privacy)**.
+For defense, aerospace, and high-risk medical device deployments, Agentic Factory offers a **Sovereign Runtime SKU** (`AF-SOVEREIGN-SKU-001`):
+
+* **Configured zero-egress attestation:** Fail-closed evaluation of LLM provider settings and base-URL hosts against a public-LLM deny-list when `AGENTIC_FACTORY_SOVEREIGN_MODE` is on. Output lands under `artifacts/sovereign-attestations/`.
+* **Honest residual:** This is **configured** endpoint policy, not kernel/OS zero-outbound or classified accreditation.
+* **SOC 2 mapping (not Type II):** Whitepaper maps Hudhud’s certified **ISO/IEC 27001:2022 ISMS** to AICPA Trust Services Criteria for procurement — it is **not** a SOC 2 Type II opinion.
 
 Explore:
+* [Sovereign Attestation Schema](schemas/af-sovereign-zero-egress-attestation-v1.schema.json)
+* [Sanitized Attestation Example](schemas/examples/sovereign-zero-egress-attestation-sample.json)
 * [Download Whitepaper (PDF)](whitepapers/iso27001-soc2-tsc-mapping-whitepaper.pdf)
 * [View Whitepaper Source (Markdown)](whitepapers/iso27001-soc2-tsc-mapping-whitepaper.md)
 

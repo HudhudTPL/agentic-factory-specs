@@ -1,0 +1,18 @@
+{
+  "schema": "af-sovereign-zero-egress-attestation/v1",
+  "doc_id": "AF-SOVEREIGN-SKU-001",
+  "built_at_utc": "2026-11-15T08:00:00+00:00",
+  "sovereign_mode": true,
+  "enforce": true,
+  "passed": true,
+  "execution_mode": "deterministic",
+  "providers": {
+    "platform": "deterministic",
+    "product": "deterministic"
+  },
+  "endpoints": [],
+  "denylist_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "denylist_count": 14,
+  "findings": [],
+  "claim_boundary": "Attests configured LLM endpoints are not on the public deny-list and sovereign mode constraints hold. Does not claim OS/kernel zero-outbound or classified accreditation (RG-036 residual)."
+}

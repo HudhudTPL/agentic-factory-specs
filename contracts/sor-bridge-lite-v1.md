@@ -65,7 +65,11 @@ Bridge Lite productizes Call 4 incorporation verify against any revision resourc
 python scripts/dogfood_sor_bridge_lite.py
 ```
 
-File-backed store: `data/sor_bridge_lite_dogfood.json`. Optional GitHub Issues adapter maps an issue to a revision resource when `GITHUB_TOKEN` is set. Gate evidence pointer: `artifacts/<PRJ>--project/gate-evidence/sor-bridge-revision-pointers.md`.
+File-backed store: `data/sor_bridge_lite_dogfood.json`. Optional GitHub Issues adapter maps an issue to a revision resource when `GITHUB_TOKEN` is set.
+
+### Gate evidence pointers (as shipped)
+
+Factory writes append-only markdown at `artifacts/<PRJ>--project/gate-evidence/sor-bridge-revision-pointers.md` (see [examples/sor-bridge-revision-pointers.md](examples/sor-bridge-revision-pointers.md)). There is no separate normative `af-sor-bridge-revision-pointer/v1` JSON object in the current platform release.
 
 ## Honest boundary
 
